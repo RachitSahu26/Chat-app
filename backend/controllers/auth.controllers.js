@@ -5,9 +5,10 @@ const asyncHandler = require("express-async-handler");
 const registerUser = expressAsyncHandler(async (req, res) => {
   // Your registerUser function implementation here
 const generateToken = require("../config/genrateToken")
-  const { name, email, password, pic } = req.body;
+
+const { name, email, password, gender} = req.body;
   
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !gender ) {
     res.status(400);
     throw new Error("Please Enter all the Feilds");
   }
@@ -23,7 +24,7 @@ const generateToken = require("../config/genrateToken")
     name,
     email,
     password,
-    pic,
+    gender,
   });
   
   if (user) {
@@ -31,8 +32,7 @@ const generateToken = require("../config/genrateToken")
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
-      pic: user.pic,
+    
       token: generateToken(user._id),
     });
   } else {

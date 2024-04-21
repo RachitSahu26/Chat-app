@@ -3,7 +3,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const colors = require("colors");
-const userRoutes= require("./routes/userRoutes") 
+const userAuthRoutes= require ("./routes/auth.routes")
 dotenv.config()
 
 const app = express();
@@ -14,7 +14,8 @@ app.get("/", (req, res) => {
     res.send("api is running");
 })
 
-app.use("/api/user", userRoutes);
+app.use("/api/auth", userAuthRoutes);
+
 const PORT=process.env.PORT || 4040
 
 
