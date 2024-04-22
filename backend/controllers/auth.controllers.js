@@ -1,51 +1,57 @@
 
-const expressAsyncHandler = require("express-async-handler");
 const User = require("../Models/userModel");
-const asyncHandler = require("express-async-handler");
-const registerUser = expressAsyncHandler(async (req, res) => {
-  // Your registerUser function implementation here
-const generateToken = require("../config/genrateToken")
+const jwt = require("jsonwebtoken");
+const generateToken = require("../config/genrateToken");
+const { hashpassword,comparePassword } = require("../helper/authHelper");
 
-const { name, email, password, gender} = req.body;
-  
-  if (!name || !email || !password || !gender ) {
-    res.status(400);
-    throw new Error("Please Enter all the Feilds");
-  }
-  
-  const userExists = await User.findOne({ email });
-  
-  if (userExists) {
-    res.status(400);
-    throw new Error("User already exists");
-  }
-  
-  const user = await User.create({
-    name,
-    email,
-    password,
-    gender,
-  });
-  
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-    
-      token: generateToken(user._id),
+
+
+const registerController = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    if (!name) {
+      return res.status(400).send({ error: "Name is Required" });
+    }
+    if (!email) {
+      return res.status(400).send({ error: "Email is Required" });
+    }
+    if (!password) {
+      return res.status(400).send({ error: "Password is Required" });
+    }
+
+    // checking existing user
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).send({
+        success: false,
+        message: "Already registered, please login",
+      });
+    }
+
+    // hashedpassword
+    const hashedPassword = await hashpassword(password);
+    const user = await new User({
+      name,
+      email,
+      password: hashedPassword,
+    }).save();
+
+    res.status(201).send({
+      success: true,
+      message: "User registered successfully",
+      user,
     });
-  } else {
-    res.status(400);
-    throw new Error("User not found");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in Registration",
+      error,
+    });
   }
-  
-  
-
-
-});
-
-
+};
 
 
 
@@ -53,27 +59,59 @@ const { name, email, password, gender} = req.body;
 
 // ........................login Controller.....
 
-const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).send({ error: "All fields are Required" });
+    }
 
-  const user = await User.findOne({ email });
+    // Email Validation
+    if (!email.includes("@")) {
+      return res.status(400).send({
+        success: false,
+        message: "Please enter a correct email",
+      });
+    }
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      pic: user.pic,
-      token: generateToken(user._id),
+    // Find Unique User with email
+    const existEmail = await User.findOne({ email });
+
+    if (!existEmail) {
+      return res.status(404).send({
+        success: false,
+        message: "Email is not registered",
+      });
+    }
+
+    // Matching user password to hashed password with bcrypt.compare()
+    const doMatch = await comparePassword(password, existEmail.password);
+
+    if (!doMatch) {
+      return res.status(401).send({
+        success: false,
+        message: "Invalid password",
+      });
+    }
+
+    // Password matches, user is authenticated
+    // Generate JWT token
+    const token = generateToken(existEmail._id);
+
+    // Return success message with token
+    res.status(200).send({
+      success: true,
+      message: "Login successful",
+      user: existEmail,
+      token,
     });
-  } else {
-    res.status(401);
-    throw new Error("Invalid Email or Password");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in login",
+      error,
+    });
   }
-});
-
-
-
-
-module.exports = {  registerUser, loginUser };
+};
+module.exports = { registerController,loginUser };
