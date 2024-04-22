@@ -1,42 +1,68 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from "@chakra-ui/react";
-function Signup() {
+import axios from 'axios';
 
+// Import axiosInstance
+import { useDispatch } from "react-redux";
+import { setAuthUser } from '../../redux/Slice/Auth.slice';
+import toast from 'react-hot-toast';
+
+function Signup() {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-
-
-
-  // ....login data Stored...
-  const [loginData, setLogindata] = useState({
+  const distpach = useDispatch()
+  const [signupData, setSignupData] = useState({
     name: "",
     email: "",
-    password: ""
-  })
+    password: "",
+  });
 
-
-  // ..............change input data handler...........
   const handleUserInput = (e) => {
-
     const { name, value } = e.target;
-    setLogindata({
-      ...loginData,
+    setSignupData({
+      ...signupData,
       [name]: value
-    })
-  }
+    });
 
-  const submitHandler = () => {
 
-    if (!loginData.name || !loginData.email || !loginData.password) {
-      toast.error("Please fill all the details");
-      return;
-    } 
+  };
 
 
 
-  }
 
 
+  const submitHandler = async () => {
+    try {
+      const res = await axios.post(`http://localhost:4040/api/auth/register`, signupData);
+      console.log(res);
+
+      if (res.data.message) {
+       
+        toast.success(res.data.message);
+
+
+
+      } else {
+        toast.error("Error in registration",);
+      }
+
+      if (res.data) {
+        distpach(setAuthUser(res.data));
+        // Do something with the response
+      }
+      setSignupData({
+        name: "",
+        email: "",
+        password: ""
+      })
+
+
+
+
+    } catch (error) {
+      console.error('Error occurred during signup:', error);
+    }
+  };
 
   return (
     <VStack spacing="5px">
@@ -48,10 +74,9 @@ function Signup() {
           placeholder="Enter Your Name "
           name="name"
           onChange={handleUserInput}
-          value={loginData.name}
+          value={signupData.name}
         />
       </FormControl>
-
 
       {/* ..........Email....... */}
       <FormControl id="email" isRequired>
@@ -61,12 +86,11 @@ function Signup() {
           placeholder="Enter Your Email Address"
           name="email"
           onChange={handleUserInput}
-          value={loginData.email}
+          value={signupData.email}
         />
       </FormControl>
 
       {/* ..........Password....... */}
-
       <FormControl id="password" isRequired>
         <FormLabel>Password</FormLabel>
         <InputGroup size="md">
@@ -75,7 +99,7 @@ function Signup() {
             placeholder="Enter Password"
             name="password"
             onChange={handleUserInput}
-            value={loginData.password}
+            value={signupData.password}
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -85,25 +109,17 @@ function Signup() {
         </InputGroup>
       </FormControl>
 
-
-
-
-
       {/* ..........signup btn....... */}
       <Button
         colorScheme="blue"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}
-
       >
         Sign Up
       </Button>
-
-
-
     </VStack>
-  )
+  );
 }
 
-export default Signup
+export default Signup;
