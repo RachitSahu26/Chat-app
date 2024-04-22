@@ -5,12 +5,21 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+import store from './redux/store.js';
+import { Provider } from 'react-redux';
+
+// Use ReactDOM.render instead of ReactDOM.createRoot
+ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ChakraProvider>
+
+          <App />
+    
+        </ChakraProvider>
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById('root')
 );

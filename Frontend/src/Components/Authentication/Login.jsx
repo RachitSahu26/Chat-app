@@ -3,26 +3,42 @@ import React, { useState } from 'react'
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from "@chakra-ui/react";
 function Login() {
 
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
 
 
-  const [signupData, setSignupData] = useState({
-    name: "",
+
+
+  // ....login data Stored...
+  const [loginData, setLogindata] = useState({
+
     email: "",
-    password: "",
+    password: ""
+  })
 
-  });
 
 
+  // ..............change input data handler...........
   const handleUserInput = (e) => {
 
     const { name, value } = e.target;
-    setSignupData({
-      ...signupData,
+    setLogindata({
+      ...loginData,
       [name]: value
     })
   }
 
 
+
+
+
+  const submitHandler =async () => {
+
+const res= await axios.post(`http://localhost:4040/api/auth/login`,loginData)
+
+
+
+  }
 
 
   return (
@@ -35,10 +51,11 @@ function Login() {
         <FormLabel>Email Address</FormLabel>
         <Input
           type="email"
-          name="name"
+          name="email"
           placeholder="Enter Your Email Address"
-         
-          value={signupData.name}
+
+          value={loginData.email}
+
           onChange={handleUserInput}
         />
       </FormControl>
@@ -51,9 +68,9 @@ function Login() {
           <Input
             type={show ? "text" : "password"}
             placeholder="Enter Password"
+            name='password'
 
-    
-            value={signupData.password}
+            value={loginData.password}
             onChange={handleUserInput}
 
 
