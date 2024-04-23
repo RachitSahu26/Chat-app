@@ -36,11 +36,12 @@ function Login() {
 
   const submitHandler = async () => {
     try {
-    
+      hadlecheck(loginData);
+
       const res = await axios.post(`http://localhost:4040/api/auth/login`, loginData)
-     
+
       if (res.data.message) {
-        console.log(res.data.message);
+        console.log(res.data);
         toast.success(res.data.message);
       } else {
         toast.error("Error in registration",);
@@ -51,7 +52,12 @@ function Login() {
 
 
   }
+  const hadlecheck = (loginData) => {
+    if (!loginData.password || !loginData.email) {
+      toast.error("all filed are required");
+    }
 
+  }
 
   return (
     <VStack spacing="5px">
