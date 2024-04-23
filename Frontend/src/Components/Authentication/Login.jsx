@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from "@chakra-ui/react";
+import axios from 'axios';
+import toast from 'react-hot-toast';
 function Login() {
 
   const [show, setShow] = useState(false);
@@ -32,10 +34,20 @@ function Login() {
 
 
 
-  const submitHandler =async () => {
-
-const res= await axios.post(`http://localhost:4040/api/auth/login`,loginData)
-
+  const submitHandler = async () => {
+    try {
+    
+      const res = await axios.post(`http://localhost:4040/api/auth/login`, loginData)
+     
+      if (res.data.message) {
+        console.log(res.data.message);
+        toast.success(res.data.message);
+      } else {
+        toast.error("Error in registration",);
+      }
+    } catch (error) {
+      console.error('Error occurred during signup:', error);
+    }
 
 
   }
