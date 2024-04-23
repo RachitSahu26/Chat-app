@@ -2,7 +2,7 @@
 const User = require("../Models/userModel");
 const jwt = require("jsonwebtoken");
 const generateToken = require("../config/genrateToken");
-const { hashpassword,comparePassword } = require("../helper/authHelper");
+const { hashpassword, comparePassword } = require("../helper/authHelper");
 
 
 
@@ -62,6 +62,7 @@ const registerController = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     if (!email || !password) {
       return res.status(400).send({ error: "All fields are Required" });
     }
@@ -98,6 +99,10 @@ const loginUser = async (req, res) => {
     // Generate JWT token
     const token = generateToken(existEmail._id);
 
+    // Set the JWT token in a cookie
+    // Set the JWT token in a cookie
+    res.cookie('token', token, { httpOnly: true });
+
     // Return success message with token
     res.status(200).send({
       success: true,
@@ -105,6 +110,7 @@ const loginUser = async (req, res) => {
       user: existEmail,
       token,
     });
+    
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -114,4 +120,7 @@ const loginUser = async (req, res) => {
     });
   }
 };
-module.exports = { registerController,loginUser };
+
+
+
+module.exports = { registerController, loginUser };
