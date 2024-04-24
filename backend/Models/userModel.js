@@ -22,9 +22,6 @@ const userSchema = mongoose.Schema(
     },
 
 
-
-
-
   },
   { timestaps: true }
 );
