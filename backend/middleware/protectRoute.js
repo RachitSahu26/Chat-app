@@ -1,19 +1,25 @@
 const jwt = require("jsonwebtoken");
-const projectRoute=async(req,res,next)=>{
 
-	const logedInUser = req.cookies.token;
+const protectRoute = (req, res, next) => {
+    // Check if the token exists in the request headers or cookies
+    const token = req.headers.authorization || req.cookies.token;
+
     if (!token) {
-        return res.status(401).json({ message: "User is not authenticated" })
-    }
-    const decode = await jwt.verify(token, process.env.JWT_SECRET)
-
-    if (!decode) {
-        return res.status(401).json({ message: "Invailed Token" })
+        return res.status(401).json({ message: "Unauthorized: No token provided" });
     }
 
-    req.id = decode.existEmail._id
-next()
-}
+    try {
+        // Verify the token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+        // Set the user id from the decoded token to the request object
+        req.userId = decoded.id;
 
-module.exports={projectRoute};
+        next(); // Call next middleware
+    } catch (error) {
+        console.error("Error verifying token:", error);
+        return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    }
+};
+
+module.exports = protectRoute;
