@@ -3,12 +3,13 @@ import React, { useState } from 'react'
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from "@chakra-ui/react";
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 function Login() {
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
-
+const navigate=useNavigate();
 
 
   // ....login data Stored...
@@ -46,6 +47,8 @@ function Login() {
       } else {
         toast.error("Error in registration",);
       }
+
+      navigate("/chat")
     } catch (error) {
       console.error('Error occurred during signup:', error);
     }
