@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Import axiosInstance
 import { useDispatch } from "react-redux";
-import { setAuthUser } from '../../redux/Slice/Auth.slice';
+import {  storeApiData } from '../../redux/Slice/authSlice';
 import toast from 'react-hot-toast';
 
 function Signup() {
@@ -47,7 +47,7 @@ function Signup() {
       }
 
       if (res.data) {
-        distpach(setAuthUser(res.data));
+        distpach(storeApiData(res.data));
         // Do something with the response
       }
       setSignupData({

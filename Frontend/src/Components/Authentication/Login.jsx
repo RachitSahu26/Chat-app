@@ -4,7 +4,7 @@ import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, V
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { setAuthUser } from '../../redux/Slice/Auth.slice';
+import {  storeApiData } from '../../redux/Slice/authSlice';
 import { useDispatch } from 'react-redux';
 function Login() {
 
@@ -48,7 +48,7 @@ function Login() {
 
       if (res.data.message) {
         console.log(res.data);
-        dispatch(setAuthUser(res));
+        dispatch(storeApiData(res.data));
         toast.success(res.data.message);
       } else {
         toast.error("Error in registration",);

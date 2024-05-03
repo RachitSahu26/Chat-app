@@ -2,15 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 
+const initialState = JSON.parse(localStorage.getItem('otherUsers')) || [];
 
 const  otherUserSlice= createSlice({
     name:"user",
-    initialState:{
-        otherUser:null
-    },
+    initialState,
     reducers:{
         setOtherUser:(state,action)=>{
-            state.otherUser = action.payload;
+            state.push = action.payload;
+            localStorage.setItem("otherUsers", JSON.stringify(action.payload));
         },
     }
 })
