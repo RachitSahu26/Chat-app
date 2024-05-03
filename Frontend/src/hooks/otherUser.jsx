@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setOtherUsers } from '../redux/userSlice';
+
+import { setOtherUser } from '../redux/Slice/otherUser.slice';
+
 
 
 const otherUser = () => {
@@ -10,11 +12,12 @@ const otherUser = () => {
     useEffect(() => {
         const fetchOtherUsers = async () => {
             try {
-                axios.defaults.withCredentials = true;
-                const res = await axios.get(`http://localhost:4040/api/user/`);
+
+                const res = await axios.get(`http://localhost:4040/api/user/otherUser`);
                 // store
-                console.log("other users -> ",res);
-                dispatch(setOtherUsers(res.data));
+                console.log("other users -> ", res);
+                dispatch(setOtherUser(res));
+
             } catch (error) {
                 console.log(error);
             }

@@ -2,9 +2,15 @@
 import React from 'react'
 import MessageArea from '../Components/MessageContainer/MessageArea'
 import UsersBox from '../Components/UsersContainer/UsersBox'
+import otherUser from '../hooks/otherUser'
 
 
 function Chat() {
+
+
+
+  otherUser();
+
   return (
     <div className=' h-screen bg-purple-950 flex justify-center   '>
 

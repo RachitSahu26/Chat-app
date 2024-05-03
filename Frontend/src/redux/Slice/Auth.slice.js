@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
-    name: "user",
+    name: "userAuth",
     initialState: {
         authUser: null // Assuming authUser starts as null
     },
@@ -9,12 +9,12 @@ const userSlice = createSlice({
         setAuthUser: (state, action) => {
             state.authUser = action.payload;
             // Save authUser to local storage
-            localStorage.setItem("authUser", JSON.stringify(action.payload));
+            localStorage.setItem("userAuth", JSON.stringify(action.payload));
         },
         clearAuthUser: (state) => {
             state.authUser = null;
             // Clear authUser from local storage
-            localStorage.removeItem("authUser");
+            localStorage.removeItem("userAuth");
         }
     }
 });

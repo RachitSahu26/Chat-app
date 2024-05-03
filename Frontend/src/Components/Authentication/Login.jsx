@@ -4,12 +4,15 @@ import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, V
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { setAuthUser } from '../../redux/Slice/Auth.slice';
+import { useDispatch } from 'react-redux';
 function Login() {
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
-const navigate=useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
 
   // ....login data Stored...
@@ -37,12 +40,15 @@ const navigate=useNavigate();
 
   const submitHandler = async () => {
     try {
+    
+    
       hadlecheck(loginData);
 
       const res = await axios.post(`http://localhost:4040/api/auth/login`, loginData)
 
       if (res.data.message) {
         console.log(res.data);
+        dispatch(setAuthUser(res));
         toast.success(res.data.message);
       } else {
         toast.error("Error in registration",);

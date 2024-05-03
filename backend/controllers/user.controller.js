@@ -2,7 +2,11 @@ const User = require("../Models/userModel");
 
 const otherUserController = async (req, res) => {
     try {
-        const loggedInId = req.userId; // Assuming you've set req.userId correctly in your authentication middleware
+        const loggedInId = req.Id; // Assuming you've set req.userId correctly in your authentication middleware
+
+        if (!loggedInId) {
+            return res.status(400).send({ error: "logged in id  is Required" });
+        }
 
         // Fetch all users except the logged-in user
         const otherUsers = await User.find({ _id: { $ne: loggedInId } }).select("-password");

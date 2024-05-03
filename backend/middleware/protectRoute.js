@@ -13,8 +13,9 @@ const protectRoute = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // Set the user id from the decoded token to the request object
-        req.userId = decoded.id;
-
+        req.Id = decoded.userId;
+    
+       
         next(); // Call next middleware
     } catch (error) {
         console.error("Error verifying token:", error);
