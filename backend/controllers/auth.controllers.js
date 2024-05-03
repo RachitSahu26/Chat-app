@@ -76,9 +76,9 @@ const loginUser = async (req, res) => {
     }
 
     // Find Unique User with email
-    const existEmail = await User.findOne({ email });
+    const user = await User.findOne({ email });
 
-    if (!existEmail) {
+    if (!user) {
       return res.status(404).send({
         success: false,
         message: "Email is not registered",
@@ -86,7 +86,7 @@ const loginUser = async (req, res) => {
     }
 
     // Matching user password to hashed password with bcrypt.compare()
-    const doMatch = await comparePassword(password, existEmail.password);
+    const doMatch = await comparePassword(password, user.password);
 
     if (!doMatch) {
       return res.status(401).send({
@@ -97,17 +97,14 @@ const loginUser = async (req, res) => {
 
     // Password matches, user is authenticated
     // Generate JWT token
-    const token = generateToken(existEmail._id);
+    const token = generateToken(user._id);
 
     // Set the JWT token in a cookie
-    // Set the JWT token in a cookie
-    res.cookie('token', token, { httpOnly: true });
 
-    // Return success message with token
     res.status(200).send({
       success: true,
       message: "Login successful",
-      user: existEmail,
+      user: user,
       token,
     });
     
