@@ -14,7 +14,15 @@ const app = express();
 connectDB();
 
 
-app.use(cors());
+
+// Configure CORS to allow requests from localhost:5173
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true // Enable credentials (cookies, authorization headers, etc.)
+  }));
+
+
+
 app.use(cookieParser());
 
 app.use(express.json());

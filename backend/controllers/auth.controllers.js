@@ -10,68 +10,38 @@ const registerController = async (req, res) => {
 
 
   try {
-    const { name, email, password, } = req.body;
-
-    if (!name) {
-      return res.send({ error: "Name is Required" });
+    const { fullName, email, password, confirmPassword, gender } = req.body;
+    if (!fullName || !email || !password || !confirmPassword || !gender) {
+        return res.status(400).json({ message: "All fields are required" });
     }
-    if (!email) {
-      return res.send({ error: "Email is Required" });
-    }
-    if (!password) {
-      return res.send({ error: "Password is Required" });
+    if (password !== confirmPassword) {
+        return res.status(400).json({ message: "Password do not match" });
     }
 
-    // checking existing user
-    const existingUser = await User.findOne({ email })
-    if (existingUser) {
-      return res.status(200).send({
-        success: false,
-        message: "Already Register please login",
-      });
+    const user = await User.findOne({ email });
+    if (user) {
+        return res.status(400).json({ message: "email already exit try different" });
     }
+    const hashedPassword = await hashpassword(password);
 
-    // hashedpassword
+    // profilePhoto
+    const maleProfilePhoto = `https://avatar.iran.liara.run/public/boy?username=${email}`;
+    const femaleProfilePhoto = `https://avatar.iran.liara.run/public/girl?username=${email}`;
 
-    const hashedPasswrod = await hashpassword(password);
-    const user = await new User({
-      name,
-      email,
-
-      password: hashedPasswrod,
-
-    }).save()
-
-    res.status(201).send({
-      success: true,
-      message: "User Register Successfully",
-      user,
+    await User.create({
+        fullName,
+        email,
+        password: hashedPassword,
+        profilePhoto: gender === "male" ? maleProfilePhoto : femaleProfilePhoto,
+        gender
     });
-
-
-
-
-  } catch (error) {
+    return res.status(201).json({
+        message: "Account created successfully.",
+        success: true
+    })
+} catch (error) {
     console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Errro in Registeration",
-      error,
-    });
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 };
 
@@ -82,82 +52,41 @@ const registerController = async (req, res) => {
 // ........................login Controller.....
 
 const loginUser = async (req, res) => {
-
-
   try {
-
     const { email, password } = req.body;
-
-
-    //validation
     if (!email || !password) {
-      return res.status(404).send({
-        success: false,
-        message: "Invalid email or password",
-      });
-    }
-    // Email Validation
-    if (!email.includes("@")) {
-      return res.status(400).send({
-        success: false,
-        message: "please Enter Correct email",
-      });
-    }
-
-    // Find Unique User with email
+        return res.status(400).json({ message: "All fields are required" });
+    };
     const user = await User.findOne({ email });
-
     if (!user) {
-      return res.status(404).send({
-        success: false,
-        message: "Email is not registerd",
-      });
-    }
+        return res.status(400).json({
+            message: "Incorrect email or password",
+            success: false
+        })
+    };
+    const isPasswordMatch = await comparePassword(password, user.password);
+    if (!isPasswordMatch) {
+        return res.status(400).json({
+            message: "Incorrect email or password",
+            success: false
+        })
+    };
+    const tokenData = {
+        userId: user._id
+    };
 
-    // Matching user password to hash password with bcrypt.compare()
-    const doMatch = await comparePassword(password, user.password);
+    const token = await jwt.sign(tokenData, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-    if (!doMatch) {
-      return res.status(200).send({
-        success: false,
-        message: "Invalid Password",
-      });
-    }
-    //token
-    const token = await jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    // Set the JWT token in a cookie
-    res.cookie("token", token, {
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-      httpOnly: true,
-      sameSite: "strict",
-      // Add other cookie options if needed (e.g., secure: true)
-    });
-
-    
-    res.status(200).send({
-      success: true,
-      message: "login successfully",
-      user: {
+    return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'strict' }).json({
         _id: user._id,
-        name: user.name,
+        fullName: user.fullName,
         email: user.email,
-
-      },
-      token: token,
+        profilePhoto: user.profilePhoto
     });
-  }
 
-  catch (error) {
+} catch (error) {
     console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Error in Login",
-      error,
-    })
-  }
+}
 };
 
 

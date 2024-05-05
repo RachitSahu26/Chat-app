@@ -2,20 +2,23 @@ import React, { useState } from 'react';
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from "@chakra-ui/react";
 import axios from 'axios';
 
-// Import axiosInstance
-import { useDispatch } from "react-redux";
-import {  storeApiData } from '../../redux/Slice/authSlice';
 import toast from 'react-hot-toast';
+
+// import { sign } from 'jsonwebtoken';
 
 function Signup() {
   const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
-  const distpach = useDispatch()
   const [signupData, setSignupData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     password: "",
+    confirmPassword: "",
+
+    gender: "" // New field for gender
   });
+  // const dispatch = useDispatch();
+
+  const handleClick = () => setShow(!show);
 
   const handleUserInput = (e) => {
     const { name, value } = e.target;
@@ -23,41 +26,31 @@ function Signup() {
       ...signupData,
       [name]: value
     });
-
-
   };
 
-
-
-
-
   const submitHandler = async () => {
+
     try {
-      const res = await axios.post(`http://localhost:4040/api/auth/register`, signupData);
-      console.log(res);
+      const res = await axios.post(`http://localhost:4040/api/auth/register`, signupData, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      });
 
-      if (res.data.message) {
-       
+      if (res.data.success) {
+
         toast.success(res.data.message);
-
-
-
-      } else {
-        toast.error("Error in registration",);
       }
 
-      if (res.data) {
-        distpach(storeApiData(res.data));
-        // Do something with the response
-      }
       setSignupData({
-        name: "",
+        fullName: "",
         email: "",
-        password: ""
-      })
+        password: "",
+        confirmPassword: "",
 
-
-
+        gender: "" // Reset gender field
+      });
 
     } catch (error) {
       console.error('Error occurred during signup:', error);
@@ -66,19 +59,21 @@ function Signup() {
 
   return (
     <VStack spacing="5px">
-      {/* ..........name....... */}
+      {/* Name */}
       <FormControl id="first-name" isRequired>
-        <FormLabel>Name</FormLabel>
+        <FormLabel>Full Name</FormLabel>
         <Input
-          type="name"
-          placeholder="Enter Your Name "
-          name="name"
+          type="text"
+          placeholder="Enter Your Full Name"
+          name="fullName"
           onChange={handleUserInput}
-          value={signupData.name}
+          value={signupData.fullName}
         />
       </FormControl>
 
-      {/* ..........Email....... */}
+
+
+      {/* Email */}
       <FormControl id="email" isRequired>
         <FormLabel>Email Address</FormLabel>
         <Input
@@ -90,7 +85,9 @@ function Signup() {
         />
       </FormControl>
 
-      {/* ..........Password....... */}
+
+
+      {/* Password */}
       <FormControl id="password" isRequired>
         <FormLabel>Password</FormLabel>
         <InputGroup size="md">
@@ -109,7 +106,45 @@ function Signup() {
         </InputGroup>
       </FormControl>
 
-      {/* ..........signup btn....... */}
+
+
+      {/* Confirm Password */}
+      <FormControl id="confirm-password" isRequired>
+        <FormLabel>Confirm Password</FormLabel>
+        <InputGroup size="md">
+          <Input
+            type={show ? "text" : "password"}
+            placeholder="Confirm Password"
+            name="confirmPassword"
+            onChange={handleUserInput}
+            value={signupData.confirmPassword}
+          />
+          <InputRightElement width="4.5rem">
+            <Button h="1.75rem" size="sm" onClick={handleClick}>
+              {show ? "Hide" : "Show"}
+            </Button>
+          </InputRightElement>
+        </InputGroup>
+      </FormControl>
+
+
+
+
+      {/* Gender */}
+      <FormControl id="gender">
+        <FormLabel>Gender</FormLabel>
+        <Input
+          type="text"
+          placeholder="Enter Your Gender"
+          name="gender"
+          onChange={handleUserInput}
+          value={signupData.gender}
+        />
+      </FormControl>
+
+
+
+      {/* Signup Button */}
       <Button
         colorScheme="blue"
         width="100%"

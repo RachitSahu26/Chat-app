@@ -4,7 +4,7 @@ import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, V
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import {  storeApiData } from '../../redux/Slice/authSlice';
+import { storeApiData } from '../../redux/Slice/authSlice';
 import { useDispatch } from 'react-redux';
 function Login() {
 
@@ -39,23 +39,53 @@ function Login() {
 
 
   const submitHandler = async () => {
+ 
     try {
-    
-    
+
+
       hadlecheck(loginData);
 
-      const res = await axios.post(`http://localhost:4040/api/auth/login`, loginData)
+      const res = await axios.post(`http://localhost:4040/api/auth/login`, loginData, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      })
 
-      if (res.data.message) {
-        console.log(res.data);
-        dispatch(storeApiData(res.data));
-        toast.success(res.data.message);
-      } else {
-        toast.error("Error in registration",);
-      }
+      // console.log(res.data);
+      dispatch(storeApiData(res.data));
+      toast.success(res.data.success);
+      navigate("/chat");
 
-      navigate("/chat")
+
+
+
+
+
+
+      // toast.error(res.data.message, {
+      //   position: "top-center",
+      //   autoClose: 2000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "dark",
+      //   style: {
+      //     borderRadius: '10px',
+      //     color: "red"
+      //   },
+      // });
+
+
+
+
+
+
+  
     } catch (error) {
+     
       console.error('Error occurred during signup:', error);
     }
 

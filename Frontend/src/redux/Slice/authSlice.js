@@ -10,6 +10,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     storeApiData(state, action) {
+      console.log(action.payload);
       state.push=action.payload
       localStorage.setItem('authData', JSON.stringify(action.payload));
     },
