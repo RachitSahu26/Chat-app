@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { config } from "dotenv";
 
-import otherUserSlice from "./Slice/otherUser.slice";
-import authSlice from "./Slice/authSlice";
+
+import  userSlice from "./Slice/user.Slice";
 
 const store = configureStore({
     reducer: {
-        auth:authSlice  ,
-        users:otherUserSlice,
+        user:userSlice,
+
     },
     devTools: true
 })

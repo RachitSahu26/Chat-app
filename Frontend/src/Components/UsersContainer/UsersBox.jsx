@@ -5,23 +5,7 @@ function UsersBox() {
   return (
     <div>
       <User/>
-      <User/>
-
-      <User/>
-
-      <User/>
-
-      <User/>
-
-      <User/>
-
-      <User/>
-
-      <User/>
-
-      <User/>
-
-      <User/>
+     
 
     </div>
   )
