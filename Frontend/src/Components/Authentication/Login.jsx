@@ -4,7 +4,7 @@ import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, V
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { storeApiData } from '../../redux/Slice/authSlice';
+import {  storeAuthData } from '../../redux/Slice/user.Slice';
 import { useDispatch } from 'react-redux';
 function Login() {
 
@@ -39,7 +39,7 @@ function Login() {
 
 
   const submitHandler = async () => {
- 
+//  console.log(loginData)
     try {
 
 
@@ -52,8 +52,8 @@ function Login() {
         withCredentials: true
       })
 
-      // console.log(res.data);
-      dispatch(storeApiData(res.data));
+      console.log(res.data);
+      dispatch(storeAuthData(res.data));
       toast.success(res.data.success);
       navigate("/chat");
 
