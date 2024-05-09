@@ -15,7 +15,7 @@ const OtherUser = () => {
 
                 // Check if the response contains data
                 if (response.data) {
-                    console.log("other users -> ", response.data);
+                    // console.log("other users -> ", response.data);
                     dispatch(storeOtherUserData(response.data));
                 } else {
                     console.error("Error fetching other users: Response data is undefined");
