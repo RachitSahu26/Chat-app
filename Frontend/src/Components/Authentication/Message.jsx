@@ -1,26 +1,27 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-function Message() {
+function Message({ message }) {
+  const { authdata, selectedUser } = useSelector((state) => state.user);
+
   return (
 
 
-  
-    <div class="chat chat-start">
-    <div class="chat-image avatar">
-      <div class="w-10 rounded-full">
-        <img alt="Tailwind CSS chat bubble component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+
+    <div className={`chat ${authdata?._id===message?.senderId ? 'chat-end':'chat-start'} `}>
+      <div className="chat-image avatar">
+        <div className="w-10 rounded-full">
+          <img alt="Tailwind CSS chat bubble component" src={`${message?.senderId===authdata?._id  ? authdata?.profilePhoto : selectedUser?.profilePhoto}`} />
+        </div>
       </div>
+      <div className="chat-header">
+        Obi-Wan Kenobi
+        <time className="text-xs opacity-50">12:45</time>
+      </div>
+      <div className="chat-bubble">{message?.message}</div>
+      
     </div>
-    <div class="chat-header">
-      Obi-Wan Kenobi
-      <time class="text-xs opacity-50">12:45</time>
-    </div>
-    <div class="chat-bubble">You were the Chosen One!</div>
-    <div class="chat-footer opacity-50">
-      Delivered
-    </div>
-  </div>
- 
+
   )
 }
 

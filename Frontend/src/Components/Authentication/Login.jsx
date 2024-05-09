@@ -52,7 +52,7 @@ function Login() {
         withCredentials: true
       })
 
-      console.log(res.data);
+      // console.log(res.data);
       dispatch(storeAuthData(res.data));
       toast.success(res.data.success);
       navigate("/chat");

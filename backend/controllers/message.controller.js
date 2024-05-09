@@ -5,8 +5,10 @@ const messageModel = require("../Models/messageModel")
 
 const chats = async (req, res) => {
     try {
-        const senderId = req.userId;
+        const senderId = req.id;
+        console.log("sender id backend", senderId)
         const receiverId = req.params.id;
+        console.log("sender id frontend", receiverId)
         const { message } = req.body;
 
         // Find the conversation between sender and receiver
@@ -33,7 +35,11 @@ const chats = async (req, res) => {
         await conversation.save();
 
         // Return success response
-        res.status(200).json({ success: true, message: "Message sent successfully" });
+        res.status(200).json({
+            success: true,
+            newMessage,
+            message: "Message sent successfully"
+        });
 
     } catch (error) {
         console.log(error);
@@ -48,7 +54,7 @@ const chats = async (req, res) => {
 const getMessage = async (req, res) => {
     try {
         const receiverId = req.params.id;
-        const senderId = req.userId;
+        const senderId = req.id;
         const conversation = await chat.findOne({
             participants: { $all: [senderId, receiverId] }
         }).populate("messages");

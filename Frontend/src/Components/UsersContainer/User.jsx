@@ -1,35 +1,42 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { storeSelectedUser } from '../../redux/Slice/user.Slice';
 
-function User() {
-    // Get other user data from the Redux store
-    const otherUser = useSelector(state => state.user.otherUserData);
-    console.log("this is the data of the other user api", otherUser)
+function User(props) {
+    const userData = props.user
 
-    // Check if otherUser is an array
-    if (!Array.isArray(otherUser)) {
-        // Handle the case where otherUser is not an array
-        return <p>No other users found.</p>;
+    const dispatch = useDispatch();
+
+    const selectedUsser = useSelector(state => state.user.selectedUser);
+
+    // ..................selected user.........
+    const selectedUser = (selectData) => {
+
+        dispatch(storeSelectedUser(selectData))
     }
 
     return (
         <>
             {/* Map through otherUser array and render each user */}
-            {otherUser.map((user, index) => (
-                <div key={index} className=' border-2 m-2 flex p-2 border-black h-20 rounded-lg' >
-                    <div className=' flex text-white  w-full '>
-                        {/* Assuming otherUserData contains an image URL */}
-                        <div className=' ' >
-                            <img className=' w-10 rounded-2xl' src={user.profilePhoto} alt={`User ${index}`} />
-                        </div>
-                        <div className=' ml-3 p-1 w-full '>
-                            {/* Assuming otherUserData contains name and description */}
-                            <h2>{user.fullName}</h2>
-                            {/* <p className='text-[10px]'>{user.description}</p> */}
-                        </div>
+
+            <div
+                onClick={() => selectedUser(userData)}
+                className={`${selectedUsser?._id === userData?._id ? 'bg-black  ' : ''
+                    } border-2 m-2 flex p-2 hover:bg-black hover:border-5 hover:border-yellow-600    cursor-pointer border-black h-20 rounded-lg`}
+            >
+                <div className={` ${selectedUsser?._id === userData?._id ? 'text-yellow-500 ' : 'text-white'} flex text-white   hover:text-white w-full `}>
+                    {/* Assuming otherUserData contains an image URL */}
+                    <div className=' ' >
+                        <img className=' w-10 rounded-2xl' src={userData.profilePhoto} alt={`User `} />
+                    </div>
+                    <div className=' ml-3 p-1 w-full '>
+                        {/* Assuming otherUserData contains name and description */}
+                        <h2>{userData.fullName}</h2>
+                        {/* <p className='text-[10px]'>{user.description}</p> */}
                     </div>
                 </div>
-            ))}
+            </div>
+
         </>
     );
 }

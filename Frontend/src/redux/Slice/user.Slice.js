@@ -1,9 +1,13 @@
-// apiSlice.js
+// / apiSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
+// Load authdata from localStorage or initialize it as null
+const initialAuthData = JSON.parse(localStorage.getItem('authdata')) || null;
+
 const initialState = {
-  authdata: null,
+  authdata: initialAuthData,
   otherUserData: null,
+  selectedUser: null,
 };
 
 const userSlice = createSlice({
@@ -12,16 +16,20 @@ const userSlice = createSlice({
   reducers: {
     storeAuthData(state, action) {
       state.authdata = action.payload;
+      // console.log(" Auth  data of the redux store", action.payload);
       localStorage.setItem('authdata', JSON.stringify(action.payload));
     },
 
     storeOtherUserData(state, action) {
       state.otherUserData = action.payload.data;
-      console.log("data of the redux store",action.payload.data);
       localStorage.setItem('otherUserData', JSON.stringify(action.payload.data));
     },
+    storeSelectedUser(state, action) {
+      state.selectedUser = action.payload;
+      // console.log("stored selectd user data",action.payload);
+    }
   },
 });
 
-export const { storeAuthData, storeOtherUserData } = userSlice.actions;
+export const { storeAuthData, storeOtherUserData,storeSelectedUser } = userSlice.actions;
 export default userSlice.reducer;

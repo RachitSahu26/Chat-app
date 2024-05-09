@@ -90,5 +90,14 @@ const loginUser = async (req, res) => {
 };
 
 
+ const logout = (req, res) => {
+    try {
+        return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+            message: "logged out successfully."
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-module.exports = { registerController, loginUser };
+module.exports = { registerController, loginUser,logout };
