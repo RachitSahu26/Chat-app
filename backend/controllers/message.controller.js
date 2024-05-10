@@ -6,9 +6,9 @@ const messageModel = require("../Models/messageModel")
 const chats = async (req, res) => {
     try {
         const senderId = req.id;
-        console.log("sender id backend", senderId)
+        // console.log("sender id backend", senderId)
         const receiverId = req.params.id;
-        console.log("sender id frontend", receiverId)
+        // console.log("sender id frontend", receiverId)
         const { message } = req.body;
 
         // Find the conversation between sender and receiver
