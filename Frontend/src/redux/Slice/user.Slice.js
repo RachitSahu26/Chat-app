@@ -8,6 +8,7 @@ const initialState = {
   authdata: initialAuthData,
   otherUserData: null,
   selectedUser: null,
+  onlineUser:null,
 };
 
 const userSlice = createSlice({
@@ -27,9 +28,13 @@ const userSlice = createSlice({
     storeSelectedUser(state, action) {
       state.selectedUser = action.payload;
       // console.log("stored selectd user data",action.payload);
+    },
+    storeOnlineUser(state,action){
+      state.onlineUser=action.payload;
+
     }
   },
 });
 
-export const { storeAuthData, storeOtherUserData,storeSelectedUser } = userSlice.actions;
+export const { storeAuthData, storeOtherUserData,storeSelectedUser,storeOnlineUser } = userSlice.actions;
 export default userSlice.reducer;
