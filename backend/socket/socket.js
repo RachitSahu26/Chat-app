@@ -1,8 +1,5 @@
-const { Server } = require("socket.io");
-
 function initializeSocket(server) {
-
-    const io = new Server(server, {
+    const io = require("socket.io")(server, {
         cors: {
             origin: 'http://localhost:5173',
             methods: ['GET', 'POST'],
@@ -14,7 +11,6 @@ function initializeSocket(server) {
 
     io.on("connection", (socket) => {
         console.log('user has connected', socket.id);
-        // Additional socket.io logic can be added here
 
         const userId = socket.handshake.query.authId;
         if (userId !== undefined) {
@@ -23,13 +19,48 @@ function initializeSocket(server) {
 
         io.emit('getOnlineUsers', Object.keys(socketUsers));
 
-        socket.on('disconnect', () => { 
-            delete socketUsers[userId];
-            io.emit('getOnlineUsers', Object.keys(socketUsers));
+        socket.on('disconnect', () => {
+            const disconnectedUserId = Object.keys(socketUsers).find(key => socketUsers[key] === socket.id);
+            if (disconnectedUserId !== undefined) {
+                delete socketUsers[disconnectedUserId];
+                io.emit('getOnlineUsers', Object.keys(socketUsers));
+            }
+        });
+
+        // Handle newMessage event
+        socket.on('newMessage', (newMessage) => {
+            // Logic to send the message to the appropriate recipient
+            const receiverSocketId = socketUsers[newMessage.receiverId];
+            if (receiverSocketId) {
+                io.to(receiverSocketId).emit('newMessage', newMessage);
+            }
         });
     });
 
-    return io;
+    return { io };
 }
 
 module.exports = initializeSocket;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
