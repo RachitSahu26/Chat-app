@@ -1,14 +1,12 @@
-// / apiSlice.js
+// apiSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
-// Load authdata from localStorage or initialize it as null
-const initialAuthData = JSON.parse(localStorage.getItem('authdata')) || null;
-
-const initialState = {
-  authdata: initialAuthData,
+// Load initial state from local storage or initialize it as null
+const initialState = JSON.parse(localStorage.getItem('reduxState')) || {
+  authdata: null,
   otherUserData: null,
   selectedUser: null,
-  onlineUser:null,
+  onlineUser: null,
 };
 
 const userSlice = createSlice({
@@ -17,24 +15,30 @@ const userSlice = createSlice({
   reducers: {
     storeAuthData(state, action) {
       state.authdata = action.payload;
-      // console.log(" Auth  data of the redux store", action.payload);
-      localStorage.setItem('authdata', JSON.stringify(action.payload));
+      localStorage.setItem('reduxState', JSON.stringify(state));
     },
 
     storeOtherUserData(state, action) {
       state.otherUserData = action.payload.data;
-      localStorage.setItem('otherUserData', JSON.stringify(action.payload.data));
+      localStorage.setItem('reduxState', JSON.stringify(state));
     },
     storeSelectedUser(state, action) {
       state.selectedUser = action.payload;
-      // console.log("stored selectd user data",action.payload);
+      localStorage.setItem('reduxState', JSON.stringify(state));
     },
-    storeOnlineUser(state,action){
-      state.onlineUser=action.payload;
-
-    }
+    storeOnlineUser(state, action) {
+      state.onlineUser = action.payload;
+      localStorage.setItem('reduxState', JSON.stringify(state));
+    },
+    clearUserData(state) {
+      state.authdata = null;
+      state.otherUserData = null;
+      state.selectedUser = null;
+      state.onlineUser = [];
+      // Clear user data from local storage
+    },
   },
 });
 
-export const { storeAuthData, storeOtherUserData,storeSelectedUser,storeOnlineUser } = userSlice.actions;
+export const { storeAuthData, storeOtherUserData, storeSelectedUser, storeOnlineUser,clearUserData } = userSlice.actions;
 export default userSlice.reducer;
