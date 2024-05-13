@@ -8,7 +8,12 @@ function User(props) {
     const dispatch = useDispatch();
 
     const selectedUsser = useSelector(state => state.user.selectedUser);
+    const { onlineUser } = useSelector((state) => state.user);
 
+
+    const isOnline = onlineUser?.includes(userData._id);
+
+   
     // ..................selected user.........
     const selectedUser = (selectData) => {
 
@@ -26,15 +31,32 @@ function User(props) {
             >
                 <div className={` ${selectedUsser?._id === userData?._id ? 'text-yellow-500 ' : 'text-white'} flex text-white   hover:text-white w-full `}>
                     {/* Assuming otherUserData contains an image URL */}
-                    <div className=' ' >
-                        <img className=' w-10 rounded-2xl' src={userData.profilePhoto} alt={`User `} />
+
+                    <div className={`avatar ${isOnline ? 'online' : ''}`}>
+                        <div className='w-12 rounded-full'>
+                            <img src={userData.profilePhoto} alt="user-profile" />
+                        </div>
                     </div>
+
+
+
+
+
+
+
+
+
+
+
+
                     <div className=' ml-3 p-1 w-full '>
                         {/* Assuming otherUserData contains name and description */}
                         <h2>{userData.fullName}</h2>
                         {/* <p className='text-[10px]'>{user.description}</p> */}
                     </div>
+
                 </div>
+
             </div>
 
         </>

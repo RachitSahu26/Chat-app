@@ -8,7 +8,8 @@ const cookieParser = require('cookie-parser');
 const messageRoute = require("./routes/message.routes");
 const AuthRoutes = require("./routes/auth.routes");
 const userRoute = require("./routes/user.routes");
-const initializeSocket = require("./socket/socket");
+
+const initializeSocket = require('./socket/socket'); // Adjust the file path as needed
 
 dotenv.config();
 

@@ -5,11 +5,12 @@ import UsersBox from '../Components/UsersContainer/UsersBox'
 import otherUser from '../hooks/otherUser'
 
 import { useNavigate } from 'react-router-dom'
-import { storeAuthData } from '../redux/Slice/user.Slice'
+import { clearUserData, storeAuthData } from '../redux/Slice/user.Slice'
 import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast';
 import fetchMessage from '../hooks/fetchMessage'
 import axios from 'axios'
+import getRealTimeMess from '../hooks/getRealTimeMess'
 
 function Chat() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ function Chat() {
 
       // console.log(res)
       toast.success(res.data.message);
-      dispatch(storeAuthData(null));
+      dispatch(clearUserData());
       navigate("/")
 
 
@@ -33,6 +34,7 @@ function Chat() {
 
   otherUser();
   fetchMessage();
+  getRealTimeMess();
   return (
     <div className=' h-screen bg-purple-950 flex justify-center   '>
 

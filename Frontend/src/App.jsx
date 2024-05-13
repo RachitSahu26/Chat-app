@@ -13,28 +13,46 @@ function App() {
   const dispatch = useDispatch();
   const { authdata } = useSelector((state) => state.user)
   const [socket, setSocket] = useState(null);
-  useEffect(() => {
-    if (authdata) {
 
-      const socket = io('http://localhost:4040', {
+
+  useEffect(() => {
+    let socket = null;
+
+    if (authdata) {
+      socket = io('http://localhost:4040', {
         query: {
           authId: authdata._id
         },
       });
 
-
       dispatch(storeSocketData(socket));
+
+      socket.on("connect", () => {
+        toast.success('Connected to server');
+      });
+
+      socket.on("disconnect", () => {
+        toast.error('Disconnected from server');
+      });
+
       socket.on("getOnlineUsers", (onlineUsers) => {
         dispatch(storeOnlineUser(onlineUsers));
-      })
+      });
 
-
-
+      socket.on("connect_error", (error) => {
+        toast.error(`Socket connection error: ${error.message}`);
+      });
     }
 
-  }, [authdata])
-
-
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    };
+  }, [authdata, dispatch]);
+ 
+ 
+ 
   return (
     <>
       <Routes>
