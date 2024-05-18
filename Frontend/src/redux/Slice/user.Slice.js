@@ -26,6 +26,9 @@ const userSlice = createSlice({
       state.selectedUser = action.payload;
       localStorage.setItem('reduxState', JSON.stringify(state));
     },
+    clearSelectedUser(state,action){
+      state.selectedUser = null;
+    },
     storeOnlineUser(state, action) {
       state.onlineUser = action.payload;
       localStorage.setItem('reduxState', JSON.stringify(state));
@@ -40,5 +43,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { storeAuthData, storeOtherUserData, storeSelectedUser, storeOnlineUser,clearUserData } = userSlice.actions;
+export const { storeAuthData, storeOtherUserData, storeSelectedUser,clearSelectedUser, storeOnlineUser,clearUserData } = userSlice.actions;
 export default userSlice.reducer;

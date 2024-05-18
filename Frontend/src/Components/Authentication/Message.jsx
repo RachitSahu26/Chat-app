@@ -8,10 +8,10 @@ function Message({ message }) {
 
 
 
-    <div className={`chat ${authdata?._id===message?.senderId ? 'chat-end':'chat-start'} `}>
+    <div className={`chat p-4  ${authdata?._id === message?.senderId ? 'chat-end' : 'chat-start'} `}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
-          <img alt="Tailwind CSS chat bubble component" src={`${message?.senderId===authdata?._id  ? authdata?.profilePhoto : selectedUser?.profilePhoto}`} />
+          <img alt="Tailwind CSS chat bubble component" src={`${message?.senderId === authdata?._id ? authdata?.profilePhoto : selectedUser?.profilePhoto}`} />
         </div>
       </div>
       <div className="chat-header">
@@ -19,7 +19,7 @@ function Message({ message }) {
         <time className="text-xs opacity-50">12:45</time>
       </div>
       <div className="chat-bubble">{message?.message}</div>
-      
+
     </div>
 
   )
