@@ -27,19 +27,20 @@ function User(props) {
         <>
             <div
                 onClick={() => handleUserSelection(userData)}
-                className={`${selectedUser?._id === userData?._id ? 'bg-black' : ''
-                    } h-auto border-2 m-2 flex p-2 hover:bg-black hover:border-5 hover:border-yellow-600 cursor-pointer border-white  rounded-lg`}
+                className={`${selectedUser?._id === userData?._id ? 'bg-black ' : ''
+                    }  border-2   m-2 flex p-2 hover:bg-yellow-400  hover:transition-transform duration-200  hover:border-5 cursor-pointer border-white  rounded-lg`}
             >
               
               
-                <div className={`${selectedUser?._id === userData?._id ? 'text-yellow-500' : 'text-white'} p-3 h-auto   flex text-white hover:text-white w-full flex-col md:flex-row `}>
+                <div className={`${selectedUser?._id === userData?._id ? 'text-white bg-teal-500 rounded-lg' : 'text-white'} p-3    flex justify-between text-white hover:text-black w-full  `}>
                     <div className={`avatar ${isOnline ? 'online' : ''}`}>
                         <div className='w-12 rounded-full'>
                             <img src={userData.profilePhoto} alt="user-profile" />
                         </div>
                     </div>
-                    <div className=' h-auto  item-center p-1 w-full '>
-                        <h2 className=' text-[10px] sm:text-xl '>{userData.fullName}</h2>
+                  
+                    <div className=' h-auto ml-5 item-center p-1 w-full '>
+                        <h2 className=' text-xl '>{userData.fullName}</h2>
                     </div>
                 </div>
             </div>
