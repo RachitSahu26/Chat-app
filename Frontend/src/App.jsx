@@ -36,7 +36,7 @@ const {message}=useSelector((state)=>state.messages)
       });
     
         socket.on('newMessage', (newMessage) => {
-          console.log('Received new message:', newMessage);
+          // console.log('Received new message:', newMessage);
           dispatch(storedMessageData([...message,newMessage]))
           toast.success('New Message came');
         });

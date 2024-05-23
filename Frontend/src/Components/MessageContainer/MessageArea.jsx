@@ -15,7 +15,7 @@ function MessageArea() {
         < >
             {/* ..............message............ */}
 
-            <div className='h-[85%]  md:h-[80%] border-2 border-green-500 overflow-y-auto'>
+            <div className='h-[85%]  md:h-[80%] border-2 rounded-lg border-green-500 overflow-y-auto'>
 
 
                 {

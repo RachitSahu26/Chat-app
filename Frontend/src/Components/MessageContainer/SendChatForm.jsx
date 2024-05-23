@@ -7,7 +7,7 @@ import { storedMessageData } from '../../redux/Slice/message.Slice';
 function SendChatForm() {
 
     const selectedUssr = useSelector((state) => state.user.selectedUser)
-    console.log(" selected fdfdfdsfdfdsfd", selectedUssr);
+
     const [getMessage, setGetMessage] = useState("");
     const dispatch = useDispatch();
     const message = useSelector((state) => state.messages.message)
@@ -18,7 +18,7 @@ function SendChatForm() {
 
 
 
-        console.log(getMessage);
+    
 
         try {
             e.preventDefault();
@@ -33,7 +33,7 @@ function SendChatForm() {
                     },
                     withCredentials: true
                 })
-            console.log("created mmmmmmmmmmm", res.data);
+            // console.log("created mmmmmmmmmmm", res.data);
             dispatch(storedMessageData([...message, res?.data?.newMessage]))
 
 

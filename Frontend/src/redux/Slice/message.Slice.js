@@ -8,7 +8,7 @@ const messageSlice = createSlice({
     reducers: {
         storedMessageData(state, action) {
             state.message = action.payload
-            console.log("redux msg",action.payload)
+            // console.log("redux msg",action.payload)
         }
     }
 })
