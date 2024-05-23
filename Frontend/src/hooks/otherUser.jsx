@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import axios from "axios";
 import { useDispatch } from "react-redux";
-// import { } from '../redux/Slice/otherUser.slice';
 import { storeOtherUserData } from '../redux/Slice/user.Slice';
 
-const OtherUser = () => {
-    const dispatch = useDispatch();
 
+
+const OtherUser = () => {
+    // const dispatch = useDispatch();
+const dispatch=useDispatch();
     useEffect(() => {
         const fetchOtherUsers = async () => {
             try {
@@ -16,7 +17,8 @@ const OtherUser = () => {
                 // Check if the response contains data
                 if (response.data) {
                     // console.log("other users -> ", response.data);
-                    dispatch(storeOtherUserData(response.data));
+                // dispatch(storeOtherUserData(response.data));
+                dispatch(storeOtherUserData(response.data))
                 } else {
                     console.error("Error fetching other users: Response data is undefined");
                 }
