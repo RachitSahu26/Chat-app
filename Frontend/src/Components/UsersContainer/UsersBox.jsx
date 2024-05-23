@@ -44,13 +44,13 @@ const dispatch=useDispatch();
 
 
   return (
-    <div className='flex flex-col h-full  w-full  p-2'>
+    <div className='flex flex-col h-full    w-full  p-2'>
 
       <div className='rounded-lg border-2 border-yellow-500'>
         <h3 className='bg-black text-center text-white p-5 rounded-lg'>{authdata?.fullName}</h3>
       </div>
 
-      <div className='flex-grow'>
+      <div className='flex-grow  h-96 overflow-y-auto'>
         {
           otherUser.map((user) => (
             <User key={user._id} user={user} />
@@ -58,8 +58,8 @@ const dispatch=useDispatch();
         }
       </div>
 
-      <div>
-        <button onClick={logoutHandler} className='bg-black text-white border-2 border-white p-3 rounded-lg'>Logout</button>
+      <div className=' p-2'>
+        <button onClick={logoutHandler} className='bg-black text-white border-2 border-red-500 p-3  hover:transition-transform duration-200 hover:scale-90  hover:bg-red-500 hover:text-black rounded-lg'>Logout</button>
       </div>
 
     </div>
