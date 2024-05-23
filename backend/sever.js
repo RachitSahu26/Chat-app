@@ -8,8 +8,8 @@ const cookieParser = require('cookie-parser');
 const messageRoute = require("./routes/message.routes");
 const AuthRoutes = require("./routes/auth.routes");
 const userRoute = require("./routes/user.routes");
-
-const initializeSocket = require('./socket/socket'); // Adjust the file path as needed
+const { setupSocket } = require("./socket/socket");
+const { initializeSocket } = require("./controllers/message.controller");
 
 dotenv.config();
 
@@ -20,12 +20,13 @@ connectDB();
 
 app.use(cors({
   origin: 'http://localhost:5173',
-  credentials: true
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin']
 }));
 app.use(cookieParser());
 app.use(express.json());
 app.get("/", (req, res) => {
-  res.send("api is running");
+  res.send("API is running");
 });
 
 // Routes
@@ -33,9 +34,10 @@ app.use("/api/auth", AuthRoutes);
 app.use("/api/user", userRoute);
 app.use("/api/message", messageRoute);
 
-// Initialize Socket.IO
-const io = initializeSocket(server);
+// Set up socket connection
+const { io } = setupSocket(server);
+initializeSocket(io); // Initialize the socket in the message controller
 
 const PORT = process.env.PORT || 4040;
 
-server.listen(PORT, console.log(`Server is running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
