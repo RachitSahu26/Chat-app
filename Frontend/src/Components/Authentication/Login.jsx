@@ -4,8 +4,11 @@ import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, V
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import {  storeAuthData } from '../../redux/Slice/user.Slice';
+// import {  storeAuthData } from '../../redux/Slice/user.Slice';
+// import {storeAuthData} from "../../redux/Slice/user.Slice"
 import { useDispatch } from 'react-redux';
+import { storeAuthData } from '../../redux/Slice/user.Slice';
+
 function Login() {
 
   const [show, setShow] = useState(false);
@@ -52,7 +55,7 @@ function Login() {
         withCredentials: true
       })
 
-      // console.log(res.data);
+      // console.log("autha data",res.data);
       dispatch(storeAuthData(res.data));
       toast.success(res.data.success);
       navigate("/chat");
