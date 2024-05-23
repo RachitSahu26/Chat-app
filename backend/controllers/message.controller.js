@@ -1,8 +1,11 @@
 const chat = require("../Models/chatModel");
 const messageModel = require("../Models/messageModel");
-const initializeSocket = require('../socket/socket'); // Import Socket.IO initialization function
 
-const { io } = initializeSocket; // Retrieve Socket.IO instance from initialization
+let io; // Declare io at the module level
+
+const initializeSocket = (ioInstance) => {
+    io = ioInstance;
+};
 
 const chats = async (req, res) => {
     try {
@@ -29,11 +32,11 @@ const chats = async (req, res) => {
         conversation.messages.push(newMessage._id);
         await conversation.save();
 
-        // Emit the new message to the sender and receiver
+        // Emit the new message to the receiver
+        if (io) {
+            io.emit('newMessage', newMessage);
+        }
 
-
-
-        z
         res.status(200).json({
             success: true,
             newMessage,
@@ -44,7 +47,7 @@ const chats = async (req, res) => {
         console.log(error);
         res.status(500).json({ success: false, message: "Error sending message" });
     }
-}
+};
 
 const getMessage = async (req, res) => {
     try {
@@ -58,6 +61,6 @@ const getMessage = async (req, res) => {
         console.log(error);
         res.status(500).json({ success: false, message: "Error retrieving messages" });
     }
-}
+};
 
-module.exports = { chats, getMessage };
+module.exports = { chats, getMessage, initializeSocket };
