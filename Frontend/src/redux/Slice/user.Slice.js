@@ -1,9 +1,19 @@
-// apiSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
+// Function to load state from local storage
+const loadStateFromLocalStorage = () => {
+  try {
+    const serializedState = localStorage.getItem('authdata');
+    return serializedState ? JSON.parse(serializedState) : null;
+  } catch (e) {
+    console.warn("Failed to load authdata from local storage", e);
+    return null;
+  }
+};
+
 // Load initial state from local storage or initialize it as null
-const initialState = JSON.parse(localStorage.getItem('reduxState')) || {
-  authdata: null,
+const initialState = {
+  authdata: loadStateFromLocalStorage(),
   otherUserData: null,
   selectedUser: null,
   onlineUser: null,
@@ -15,23 +25,25 @@ const userSlice = createSlice({
   reducers: {
     storeAuthData(state, action) {
       state.authdata = action.payload;
-      localStorage.setItem('reduxState', JSON.stringify(state));
+      // Save authdata to local storage
+      try {
+        const serializedState = JSON.stringify(state.authdata);
+        localStorage.setItem('authdata', serializedState);
+      } catch (e) {
+        console.warn("Failed to save authdata to local storage", e);
+      }
     },
-
     storeOtherUserData(state, action) {
       state.otherUserData = action.payload.data;
-      localStorage.setItem('reduxState', JSON.stringify(state));
     },
     storeSelectedUser(state, action) {
       state.selectedUser = action.payload;
-      localStorage.setItem('reduxState', JSON.stringify(state));
     },
-    clearSelectedUser(state,action){
+    clearSelectedUser(state, action) {
       state.selectedUser = null;
     },
     storeOnlineUser(state, action) {
       state.onlineUser = action.payload;
-      localStorage.setItem('reduxState', JSON.stringify(state));
     },
     clearUserData(state) {
       state.authdata = null;
@@ -39,9 +51,14 @@ const userSlice = createSlice({
       state.selectedUser = null;
       state.onlineUser = [];
       // Clear user data from local storage
+      try {
+        localStorage.removeItem('authdata');
+      } catch (e) {
+        console.warn("Failed to clear authdata from local storage", e);
+      }
     },
   },
 });
 
-export const { storeAuthData, storeOtherUserData, storeSelectedUser,clearSelectedUser, storeOnlineUser,clearUserData } = userSlice.actions;
+export const { storeAuthData, storeOtherUserData, storeSelectedUser, clearSelectedUser, storeOnlineUser, clearUserData } = userSlice.actions;
 export default userSlice.reducer;
