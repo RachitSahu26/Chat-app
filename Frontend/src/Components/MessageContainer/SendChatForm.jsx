@@ -54,11 +54,12 @@ function SendChatForm() {
                     onChange={(e) => setGetMessage(e.target.value)}
                     type="text"
                     placeholder='Send a message...'
-                    className='border text-sm rounded-lg block w-full p-3 border-zinc-500 bg-gray-600 text-white'
+                    className='border text-sm rounded-lg block w-full  p-3 border-green-500 bg-gray-600 text-white'
                 />
-                <button type="submit" className='absolute flex inset-y-0 end-0 items-center pr-4'>
+                <button type="submit" className='absolute flex inset-y-0 bg-green-500 hover:scale-90 rounded-lg pl-2 end-0 items-center pr-3 shadow-lg hover:shadow-xl transition-transform duration-150'>
                     <IoSend />
                 </button>
+
             </div>
         </form>
     )
