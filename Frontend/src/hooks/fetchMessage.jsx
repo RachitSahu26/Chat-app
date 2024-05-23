@@ -19,7 +19,7 @@ const fetchMessage = () => {
 
     }
     userMessage();
-  }, [selectedUser])
+  }, [selectedUser,dispatch])
 
 
 

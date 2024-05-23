@@ -5,6 +5,7 @@ import axios from 'axios';
 import { clearUserData } from '../../redux/Slice/user.Slice';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { clearMessageData } from '../../redux/Slice/message.Slice';
 
 function UsersBox() {
 
@@ -22,6 +23,7 @@ const dispatch=useDispatch();
       // console.log(res)
       toast.success(res.data.message);
       dispatch(clearUserData());
+      dispatch(clearMessageData());
       navigate("/")
 
 
