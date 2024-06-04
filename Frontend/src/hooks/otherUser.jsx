@@ -12,7 +12,7 @@ const dispatch=useDispatch();
         const fetchOtherUsers = async () => {
             try {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get('http://localhost:4040/api/user/otherUser');
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/otherUser`);
 
                 // Check if the response contains data
                 if (response.data) {

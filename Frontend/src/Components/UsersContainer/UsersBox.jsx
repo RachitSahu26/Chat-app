@@ -18,7 +18,7 @@ const dispatch=useDispatch();
 
   const logoutHandler = async () => {
     try {
-      const res = await axios.get("http://localhost:4040/api/auth/logout")
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/logout`)
 
       // console.log(res)
       toast.success(res.data.message);

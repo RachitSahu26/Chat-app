@@ -31,7 +31,7 @@ function Signup() {
   const submitHandler = async () => {
 
     try {
-      const res = await axios.post(`http://localhost:4040/api/auth/register`, signupData, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, signupData, {
         headers: {
           'Content-Type': 'application/json'
         },

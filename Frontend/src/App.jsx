@@ -16,11 +16,12 @@ const {message}=useSelector((state)=>state.messages)
   useEffect(() => {
     let socket = null;
     if (authdata) {
-      socket = io('http://localhost:4040', {
+      socket = io(`${import.meta.env.VITE_API_URL}`, {
         query: {
           authId: authdata._id
         },
       });
+      console.log(socket)
       dispatch(storeSocketData(socket));
   
       socket.on("connect", () => {

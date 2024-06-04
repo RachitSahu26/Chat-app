@@ -13,6 +13,8 @@ const chats = async (req, res) => {
         const receiverId = req.params.id;
         const { message } = req.body;
 
+        console.log(senderId, receiverId, message);
+
         let conversation = await chat.findOne({
             participants: { $all: [senderId, receiverId] }
         });

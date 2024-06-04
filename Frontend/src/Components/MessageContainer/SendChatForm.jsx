@@ -23,7 +23,7 @@ function SendChatForm() {
         try {
             e.preventDefault();
 
-            const res = await axios.post(`http://localhost:4040/api/message/send/${selectedUssr?._id}`,
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/message/send/${selectedUssr?._id}`,
                 {
                     message: getMessage
                 },
