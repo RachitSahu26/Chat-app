@@ -5,29 +5,33 @@ The Chat App is a real-time messaging application that allows users to communica
 
 ## Table of Contents
 - [Description](#description)
-- [Installation](#installation)
-- [Usage](#usage)
+- [Prerequisites](#prerequisites)
+- [Backend Setup](#backend-setup)
+  - [Installing](#installing)
+  - [Running the Server](#running-the-server)
+- [Frontend Setup](#frontend-setup)
+  - [Installing](#installing-1)
+  - [Running the Development Server](#running-the-development-server)
 - [Features](#features)
 - [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 - [Acknowledgments](#acknowledgments)
 
-## Installation
-
-### Prerequisites
+## Prerequisites
 - Node.js
 - npm
 - MongoDB
 
+## Backend Setup
+
 ### Installing
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/chat-app.git
-    cd chat-app
+    git clone https://github.com/RachitSahu26/Chat-app.git
+    cd Chat-app
     ```
 
-2. Install the dependencies:
+2. Install the backend dependencies:
     ```bash
     npm install
     ```
@@ -39,30 +43,37 @@ The Chat App is a real-time messaging application that allows users to communica
     JWT_SECRET=your_jwt_secret
     ```
 
-4. Start the server:
+### Running the Server
+- Start the backend server:
     ```bash
     npm start
     ```
 
-## Usage
-1. Open your browser and navigate to `http://localhost:4040`.
-2. Sign up with a new account.
-3. Log in using your credentials.
-4. You will see a list of existing users.
-5. Select a user to start a chat and send messages.
+## Frontend Setup
 
-### API Endpoints
-- **Auth Routes**:
-  - `POST /api/auth/register`: Register a new user.
-  - `POST /api/auth/login`: Log in an existing user.
-  - `GET /api/auth/logout`: Log out the current user.
+### Installing
+1. Navigate to the frontend directory:
+    ```bash
+    cd frontend
+    ```
 
-- **User Routes**:
-  - `GET /api/user/otherUser`: Get a list of other users (protected route).
+2. Install the frontend dependencies:
+    ```bash
+    npm install
+    ```
 
-- **Message Routes**:
-  - `POST /api/message/send/:id`: Send a message to a user (protected route).
-  - `GET /api/message/:id`: Get messages from a user (protected route).
+3. Create a `.env` file in the frontend directory and add the following variables:
+    ```env
+    REACT_APP_API_BASE_URL=http://localhost:4040/api  # Replace this with your backend API base URL
+    ```
+
+### Running the Development Server
+- Start the frontend development server:
+    ```bash
+    npm run dev
+    ```
+
+- Open your browser and navigate to `http://localhost:3000` to view the frontend.
 
 ## Features
 - User Authentication: Sign up and log in.
@@ -77,11 +88,9 @@ The Chat App is a real-time messaging application that allows users to communica
 5. Push to the branch (`git push origin feature-branch`).
 6. Open a Pull Request.
 
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contact
-For any queries, please contact [your-email@example.com].
+For any queries, please contact [curiousrachit.26@gmail.com].
 
 ## Acknowledgments
 - Thank you to everyone who contributed.
