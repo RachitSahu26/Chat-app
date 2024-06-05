@@ -14,7 +14,7 @@ import Signup from '../Components/Authentication/Signup';
 function Home() {
   return (
     <>
-       <Container maxW="xl" centerContent>
+       <Container maxW="xl" centerContent      >
       <Box
         d="flex"
         justifyContent="center"
@@ -30,19 +30,25 @@ function Home() {
           Vrs-Chatty
         </Text>
       </Box>
-      <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
+      <Box   bg="black" color="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
         <Tabs isFitted variant="soft-rounded">
+         
           <TabList mb="1em">
             <Tab>Login</Tab>
             <Tab>Sign Up</Tab>
           </TabList>
+         
+         
           <TabPanels>
+         
             <TabPanel>
               <Login />
             </TabPanel>
+         
             <TabPanel>
               <Signup />
             </TabPanel>
+         
           </TabPanels>
         </Tabs>
       </Box>

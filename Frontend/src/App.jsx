@@ -8,11 +8,11 @@ import { storeSocketData } from './redux/Slice/socket.Slice';
 import { storeOnlineUser } from './redux/Slice/user.Slice';
 import io from "socket.io-client"
 import { storedMessageData } from './redux/Slice/message.Slice';
-
+import "./App.css";
 function App() {
   const dispatch = useDispatch();
   const { authdata } = useSelector((state) => state.user);
-const {message}=useSelector((state)=>state.messages)
+  const { message } = useSelector((state) => state.messages)
   useEffect(() => {
     let socket = null;
     if (authdata) {
@@ -23,25 +23,25 @@ const {message}=useSelector((state)=>state.messages)
       });
       console.log(socket)
       dispatch(storeSocketData(socket));
-  
+
       socket.on("connect", () => {
         toast.success('Connected to server');
       });
-      
+
       socket.on("disconnect", () => {
         toast.error('Disconnected from server');
       });
-      
+
       socket.on("getOnlineUsers", (onlineUsers) => {
         dispatch(storeOnlineUser(onlineUsers));
       });
-    
-        socket.on('newMessage', (newMessage) => {
-          // console.log('Received new message:', newMessage);
-          dispatch(storedMessageData([...message,newMessage]))
-          toast.success('New Message came');
-        });
-      
+
+      socket.on('newMessage', (newMessage) => {
+        // console.log('Received new message:', newMessage);
+        dispatch(storedMessageData([...message, newMessage]))
+        toast.success('New Message came');
+      });
+
 
       socket.on("connect_error", (error) => {
         toast.error(`Socket connection error: ${error.message}`);
