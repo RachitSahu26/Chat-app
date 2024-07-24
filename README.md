@@ -1,4 +1,15 @@
+
 # Chat App
+
+## Description
+The Chat App is a real-time messaging application that allows users to communicate with each other after completing a simple user authentication process. New users need to sign up first, and then log in. After logging in, all existing users are displayed, and users can send messages to each other.
+
+## Demo
+
+[![Watch the Demo Video](https://github.com/RachitSahu26/Chat-app/blob/main/chat-%20demo-image.png)](https://www.youtube.com/watch?v=epQApJ8trf0&t=1s)
+
+[![Watch the Demo Video](https://github.com/RachitSahu26/Chat-app/blob/main/chat-demo-image-2.png)](https://www.youtube.com/watch?v=epQApJ8trf0&t=1s)
+Click on the image above to watch the demo video.
 
 ## Description
 The Chat App is a real-time messaging application that allows users to communicate with each other after completing a simple user authentication process. New users need to sign up first, and then log in. After logging in, all existing users are displayed, and users can send messages to each other.
