@@ -9,7 +9,7 @@ import { storeOnlineUser } from './redux/Slice/user.Slice';
 import io from "socket.io-client"
 import { storedMessageData } from './redux/Slice/message.Slice';
 import "./App.css";
-import Input from './Components/input/input';
+
 function App() {
   const dispatch = useDispatch();
   const { authdata } = useSelector((state) => state.user);
@@ -63,7 +63,7 @@ function App() {
       <Routes>
 
         <Route path="/" element={<Home />} />
-        <Route path="/" element={<Input/>} />
+      
 
         <Route path="/chat" element={<Chat />} /> {/* Protect chat route */}
       </Routes>
