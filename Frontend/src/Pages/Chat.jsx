@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import UsersBox from '../Components/UsersContainer/UsersBox';
 import { useDispatch, useSelector } from 'react-redux';
 import otherUser from '../hooks/otherUser';
@@ -16,9 +16,12 @@ function Chat() {
 
   // Media query to check if screen width is less than or equal to 768px
   const isMobile = useMedia({ maxWidth: 768 });
+ 
+    otherUser();
+    fetchMessage();
 
-  otherUser();
-  fetchMessage();
+
+
   return (
     <div className='h-screen bg-black flex justify-center'>
       {isMobile ? (

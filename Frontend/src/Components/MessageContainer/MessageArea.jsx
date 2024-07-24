@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Message from '../Authentication/Message'
 import SendChatForm from './SendChatForm'
 
 import { useDispatch, useSelector } from 'react-redux'
 
 function MessageArea() {
-
-
-    const {message} = useSelector((state) => state.messages);
+  
+       
+  
+    const { message } = useSelector((state) => state.messages);
     if (!message) {
-      console.log( "No message found.");
+        console.log("No message found.");
     }
     return (
         < >
@@ -19,7 +20,7 @@ function MessageArea() {
 
 
                 {
-                   message && message?.map((mess) => (
+                    message && message?.map((mess) => (
                         <Message key={mess._id} message={mess} />
                     ))
                 }

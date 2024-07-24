@@ -43,6 +43,8 @@ function User(props) {
                         <h2 className=' text-xl '>{userData.fullName}</h2>
                     </div>
                 </div>
+           
+           
             </div>
         </>
     );
