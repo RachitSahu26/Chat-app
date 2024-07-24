@@ -146,7 +146,7 @@ function Signup() {
 
       {/* Signup Button */}
       <Button
-        colorScheme="blue"
+        colorScheme="red"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}
