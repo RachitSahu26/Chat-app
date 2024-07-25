@@ -17,29 +17,24 @@ function SendChatForm() {
     const submitMessageHandler = async (e) => {
 
 
-
-    
-
+        e.preventDefault();
         try {
-            e.preventDefault();
-
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/message/send/${selectedUssr?._id}`,
-                {
-                    message: getMessage
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    withCredentials: true
-                })
+            const res = await api.post(`/api/message/send/${selectedUssr?._id}`, 
+            {
+              message: getMessage
+            }, 
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
             // console.log("created mmmmmmmmmmm", res.data);
-            dispatch(storedMessageData([...message, res?.data?.newMessage]))
-
-
-
-
-        } catch (error) {
+            dispatch(storedMessageData([...message, res?.data?.newMessage]));
+          } 
+        
+        
+        
+        catch (error) {
             console.log("errror in the posting message", error);
         }
 

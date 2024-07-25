@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 // import {storeAuthData} from "../../redux/Slice/user.Slice"
 import { useDispatch } from 'react-redux';
 import { storeAuthData } from '../../redux/Slice/user.Slice';
+import api from '../../Api/Api';
 
 function Login() {
 
@@ -49,12 +50,15 @@ function Login() {
       hadlecheck(loginData);
 
     
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, loginData, {
+    
+      const res = await api.post('/api/auth/login', loginData, {
         headers: {
           'Content-Type': 'application/json'
         },
-        withCredentials: true
-      })
+        
+      });
+
+
 
       // console.log("autha data",res.data);
       dispatch(storeAuthData(res.data));

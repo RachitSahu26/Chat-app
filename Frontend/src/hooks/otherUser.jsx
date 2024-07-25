@@ -11,19 +11,19 @@ const dispatch=useDispatch();
     useEffect(() => {
         const fetchOtherUsers = async () => {
             try {
-                axios.defaults.withCredentials = true;
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/otherUser`);
-
+                const response = await api.get('/api/user/otherUser'); // Using the centralized Axios instance
+            
                 // Check if the response contains data
                 if (response.data) {
-                    // console.log("other users -> ", response.data);
-                // dispatch(storeOtherUserData(response.data));
-                dispatch(storeOtherUserData(response.data))
+                  // console.log("other users -> ", response.data);
+                  dispatch(storeOtherUserData(response.data));
                 } else {
-                    console.error("Error fetching other users: Response data is undefined");
+                  console.error("Error fetching other users: Response data is undefined");
                 }
-
-            } catch (error) {
+            
+              } 
+           
+            catch (error) {
                 console.error("Error fetching other users:", error);
             }
         };

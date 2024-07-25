@@ -9,7 +9,8 @@ const fetchMessage = () => {
   useEffect(() => {
     const userMessage = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/message/${selectedUser?._id}`);
+      
+        const res = await api.get(`/api/message/${selectedUser?._id}`);
         // console.log(res.data);
         dispatch(storedMessageData(res.data))
       } catch (error) {

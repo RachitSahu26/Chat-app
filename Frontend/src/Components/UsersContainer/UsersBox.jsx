@@ -18,8 +18,9 @@ const dispatch=useDispatch();
 
   const logoutHandler = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/logout`)
 
+      const res = await api.get('/api/auth/logout'); // Using the centralized Axios instance
+  
       // console.log(res)
       toast.success(res.data.message);
       dispatch(clearUserData());

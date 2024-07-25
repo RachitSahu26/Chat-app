@@ -17,7 +17,8 @@ function App() {
   useEffect(() => {
     let socket = null;
     if (authdata) {
-      socket = io(`${import.meta.env.VITE_API_URL}`, {
+     socket = io(import.meta.env.VITE_API_URL, { // Directly use the environment variable
+      
         query: {
           authId: authdata._id
         },
