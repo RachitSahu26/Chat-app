@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { storeOtherUserData } from '../redux/Slice/user.Slice';
+import api from '../Api/Api';
 
 
 

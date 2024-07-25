@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from "axios";
 import { storedMessageData } from '../redux/Slice/message.Slice';
+import api from '../Api/Api';
 const fetchMessage = () => {
   const dispatch = useDispatch();
   const {selectedUser} = useSelector((state) => state.user);

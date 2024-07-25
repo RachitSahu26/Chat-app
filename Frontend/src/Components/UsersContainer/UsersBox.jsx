@@ -6,6 +6,7 @@ import { clearUserData } from '../../redux/Slice/user.Slice';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { clearMessageData } from '../../redux/Slice/message.Slice';
+import api from '../../Api/Api';
 
 function UsersBox() {
 
